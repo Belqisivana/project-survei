@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .database import Base, engine
-from .routers import session, outlets
+from .routers import session, outlets, cities, reports
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,6 +19,8 @@ app.add_middleware(
 
 app.include_router(session.router)
 app.include_router(outlets.router)
+app.include_router(cities.router)
+app.include_router(reports.router)
 
 
 @app.get("/health")

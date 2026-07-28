@@ -24,15 +24,27 @@ class RatingStage(str, enum.Enum):
     followup = "followup"
 
 
+class City(Base):
+    __tablename__ = "cities"
+
+    id = Column(String, primary_key=True, default=gen_uuid)
+    name = Column(String, nullable=False, unique=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    outlets = relationship("Outlet", back_populates="city")
+
+
 class Outlet(Base):
     __tablename__ = "outlets"
 
     id = Column(String, primary_key=True, default=gen_uuid)
+    city_id = Column(String, ForeignKey("cities.id"), nullable=False)
     name = Column(String, nullable=False)
     google_maps_review_link = Column(String, nullable=False)
     wa_number = Column(String, nullable=False)  # format: 62812xxxxxxx
     created_at = Column(DateTime, default=datetime.utcnow)
 
+    city = relationship("City", back_populates="outlets")
     qr_codes = relationship("QRCode", back_populates="outlet")
 
 
