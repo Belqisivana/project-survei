@@ -70,8 +70,9 @@ def submit_rating(token: str, payload: schemas.RatingSubmitRequest, db: DBSessio
         else:
             crud.update_session_status(db, session, "routed_to_wa")
             wa_message = (
-                f"Halo, saya baru saja mengisi survei (kode sesi: {token}) "
-                f"dan ingin berdiskusi lebih lanjut mengenai pengalaman saya."
+                f"Halo, saya baru saja mengisi survei dari cabang "
+                f"{session.outlet.city.name} - {session.outlet.name} "
+                f"(kode sesi: {token}) dan ingin berdiskusi lebih lanjut mengenai pengalaman saya."
             )
             wa_url = f"https://wa.me/{session.outlet.wa_number}?text={quote(wa_message)}"
             return schemas.RatingSubmitResponse(
@@ -102,3 +103,4 @@ def submit_rating(token: str, payload: schemas.RatingSubmitRequest, db: DBSessio
             redirect_url=session.outlet.google_maps_review_link,
             message="Terima kasih! Yuk bantu kami dengan review di Google Maps.",
         )
+crud
