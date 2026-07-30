@@ -40,6 +40,13 @@ def add_rating(db: DBSession, session_id: str, stage: str, stars: int, comment: 
     db.refresh(rating)
     return rating
 
+def update_rating(db: DBSession, rating: models.Rating, stars: int, comment: str | None) -> models.Rating:
+    rating.stars = stars
+    rating.comment = comment
+    db.commit()
+    db.refresh(rating)
+    return rating
+
 
 def update_session_status(db: DBSession, session: models.SurveySession, status: str) -> None:
     session.status = status

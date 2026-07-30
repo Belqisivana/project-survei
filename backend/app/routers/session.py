@@ -54,10 +54,20 @@ def submit_rating(token: str, payload: schemas.RatingSubmitRequest, db: DBSessio
     existing_ratings = crud.get_ratings_for_session(db, session.id)
 
     if payload.stage == "initial":
-        if any(r.stage.value == "initial" for r in existing_ratings):
-            raise HTTPException(status_code=400, detail="Rating awal untuk sesi ini sudah pernah diisi")
+        existing_initial = next((r for r in existing_ratings if r.stage.value == "initial"), None)
+        has_followup = any(r.stage.value == "followup" for r in existing_ratings)
 
-        crud.add_rating(db, session.id, "initial", payload.stars, payload.comment)
+        if has_followup:
+            raise HTTPException(
+                status_code=400,
+                detail="Sesi ini sudah sampai tahap rating susulan, rating awal tidak bisa diubah lagi",
+            )
+
+        if existing_initial:
+            crud.update_rating(db, existing_initial, payload.stars, payload.comment)
+        else:
+            crud.add_rating(db, session.id, "initial", payload.stars, payload.comment)
+
         action = rating_logic.decide_initial_action(payload.stars)
 
         if action == "google_maps":
