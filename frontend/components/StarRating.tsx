@@ -25,7 +25,7 @@ export default function StarRating({ value, onChange, minRequired }: StarRatingP
               onMouseEnter={() => setHovered(star)}
               onMouseLeave={() => setHovered(null)}
               className="text-4xl transition-transform hover:scale-110"
-              style={{ color: active ? "#F2A623" : "#D3D1C7" }}
+              style={{ color: active ? "#F8EC30" : "#E3E1D6" }}
             >
               ★
             </button>

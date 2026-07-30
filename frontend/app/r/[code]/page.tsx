@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import StarRating from "@/components/StarRating";
 import { createSession, submitRating } from "@/lib/api";
+
+const BRAND_GREEN = "#2B5439";
 
 type PageState = "loading" | "ready" | "submitting" | "error";
 
@@ -15,6 +18,7 @@ export default function LandingRatingPage() {
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [pendingMapsUrl, setPendingMapsUrl] = useState<string | null>(null);
 
   useEffect(() => {
     createSession(params.code)
@@ -34,7 +38,12 @@ export default function LandingRatingPage() {
     setState("submitting");
     try {
       const result = await submitRating(token, "initial", stars, comment || undefined);
-      if (result.redirect_url) {
+      if (result.next_action === "google_maps" && result.redirect_url) {
+        // Rating 4-5: tampilkan pop-up dulu, jangan langsung redirect
+        setPendingMapsUrl(result.redirect_url);
+        setState("ready");
+      } else if (result.redirect_url) {
+        // Rating 1-3: langsung ke WhatsApp
         window.location.href = result.redirect_url;
       }
     } catch (err: any) {
@@ -53,6 +62,17 @@ export default function LandingRatingPage() {
 
   return (
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
+      <div className="flex justify-center">
+        <Image
+          src="/logo-ayana.png"
+          alt={outletName}
+          width={160}
+          height={44}
+          className="h-11 w-auto object-contain"
+          priority
+        />
+      </div>
+
       <div>
         <h1 className="text-xl font-medium">{outletName}</h1>
         <p className="text-gray-500 mt-1">Bagaimana pelayanan kami hari ini?</p>
@@ -61,7 +81,8 @@ export default function LandingRatingPage() {
       <StarRating value={stars} onChange={setStars} />
 
       <textarea
-        className="w-full border border-gray-200 rounded-lg p-3 text-sm"
+        className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-1"
+        style={{ ["--tw-ring-color" as any]: BRAND_GREEN }}
         rows={3}
         placeholder="Ceritakan pengalamanmu (opsional)"
         value={comment}
@@ -71,10 +92,42 @@ export default function LandingRatingPage() {
       <button
         onClick={handleSubmit}
         disabled={stars === 0 || state === "submitting"}
-        className="w-full bg-black text-white rounded-lg py-3 font-medium disabled:opacity-40"
+        className="w-full text-white rounded-lg py-3 font-medium disabled:opacity-40 transition-opacity"
+        style={{ backgroundColor: BRAND_GREEN }}
       >
         {state === "submitting" ? "Mengirim..." : "Kirim"}
       </button>
+
+      {pendingMapsUrl && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl shadow-lg p-6 max-w-sm w-full text-center space-y-4 relative">
+            <button
+              onClick={() => setPendingMapsUrl(null)}
+              aria-label="Tutup"
+              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors text-lg"
+            >
+              ✕
+            </button>
+            <div className="text-4xl">🙏</div>
+            <h2 className="text-lg font-semibold">Terima kasih banyak, ya!</h2>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Senang banget bisa bikin kamu puas hari ini. Kalau berkenan, boleh
+              bantu kami sekali lagi dengan memberi rating yang sama di Google
+              Maps? Setiap review dari kamu sangat berarti buat kami untuk terus
+              berkembang dan melayani lebih baik lagi. 💛
+            </p>
+            <button
+              onClick={() => {
+                window.location.href = pendingMapsUrl;
+              }}
+              className="w-full text-white rounded-lg py-3 font-medium"
+              style={{ backgroundColor: BRAND_GREEN }}
+            >
+              Lanjut ke Google Maps
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
