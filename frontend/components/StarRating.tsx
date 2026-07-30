@@ -13,7 +13,7 @@ export default function StarRating({ value, onChange, minRequired }: StarRatingP
 
   return (
     <div>
-      <div className="flex gap-2 justify-center">
+      <div className="flex gap-1 sm:gap-2 justify-center">
         {[1, 2, 3, 4, 5].map((star) => {
           const active = (hovered ?? value) >= star;
           return (
@@ -24,7 +24,7 @@ export default function StarRating({ value, onChange, minRequired }: StarRatingP
               onClick={() => onChange(star)}
               onMouseEnter={() => setHovered(star)}
               onMouseLeave={() => setHovered(null)}
-              className="text-4xl transition-transform hover:scale-110"
+              className="text-4xl leading-none transition-transform active:scale-95 hover:scale-110 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
               style={{ color: active ? "#F8EC30" : "#E3E1D6" }}
             >
               ★
