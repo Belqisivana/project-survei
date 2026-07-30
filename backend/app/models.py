@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Text, Enum
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Text, Enum, Boolean
 from sqlalchemy.orm import relationship
 import enum
 
@@ -68,6 +68,7 @@ class SurveySession(Base):
     outlet_id = Column(String, ForeignKey("outlets.id"), nullable=False)
     token = Column(String, unique=True, nullable=False, default=gen_uuid)
     status = Column(Enum(SessionStatus), default=SessionStatus.initial)
+    bot_greeted = Column(Boolean, default=False)  # sudah disapa bot WA atau belum
     created_at = Column(DateTime, default=datetime.utcnow)
 
     ratings = relationship("Rating", back_populates="session")

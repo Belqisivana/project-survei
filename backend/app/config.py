@@ -7,6 +7,15 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./review_funnel.db"
     min_rating_threshold: int = 4
     frontend_origin: str = "http://localhost:3000"
+    # URL publik frontend yang dipakai untuk membuat isi QR code (mengarah ke /r/<code>).
+    # Ganti ke domain asli saat sudah deploy, misal https://survei.namabisnis.com
+    frontend_base_url: str = "http://localhost:3000"
+
+    # --- WhatsApp Cloud API ---
+    whatsapp_access_token: str = ""
+    whatsapp_phone_number_id: str = ""
+    whatsapp_verify_token: str = "lkimanis10"
+    whatsapp_api_version: str = "v21.0"
 
     class Config:
         env_file = ".env"
