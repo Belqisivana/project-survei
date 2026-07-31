@@ -72,7 +72,7 @@ export default function LandingRatingPage() {
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
         <div className="flex justify-center">
           <Image
-            src="/logo-ayana.png"
+            src={`/${params.code}.png`} // ➔ LOGO DINAMIS BERDASARKAN URL
             alt={outletName}
             width={160}
             height={44}
@@ -146,7 +146,7 @@ export default function LandingRatingPage() {
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
       <div className="flex justify-center">
         <Image
-          src="/logo-ayana.png"
+          src={`/${params.code}.png`} // ➔ LOGO DINAMIS BERDASARKAN URL
           alt={outletName}
           width={160}
           height={44}
