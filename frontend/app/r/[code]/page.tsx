@@ -145,8 +145,8 @@ export default function LandingRatingPage() {
   return (
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
       <div className="flex justify-center">
-          <Image
-          src={`/logo-${params.code}.png`} // ➔ Tambahkan kata "logo-" di dalam backtick
+        <Image
+          src={`/logo-${params.code.toLowerCase()}.png`} // ➔ Semua kode dari URL otomatis diubah jadi huruf kecil saat nyari gambar
           alt={outletName}
           width={160}
           height={44}
