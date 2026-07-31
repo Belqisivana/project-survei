@@ -6,3 +6,5 @@ pydantic-settings==2.5.2
 python-dotenv==1.0.1
 psycopg2-binary==2.9.9
 alembic==1.13.3
+qrcode==7.4.2
+pillow==10.4.0
