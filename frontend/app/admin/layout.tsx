@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
+import ProfileCard from '@/components/ProfileCard'; // Import komponen ProfileCard
 
 export default function AdminLayout({
   children,
@@ -12,19 +13,20 @@ export default function AdminLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
-  // Mengambil URL yang sedang aktif saat ini
+  // STATE BARU: Untuk mengontrol buka-tutup pop-up profil
+  const [isProfileOpen, setIsProfileOpen] = useState(false); 
+  
   const pathname = usePathname();
 
-  // Fungsi untuk warna menyala sesuai referensi gambar
+  // Fungsi penentu warna menu aktif (Disesuaikan dengan warna kamu)
   const getMenuClass = (path: string) => {
-    // Mengecek apakah URL saat ini aktif di menu tersebut
-    // Khusus untuk survey, kita cek apakah url berawalan /admin/surveys (agar detail survey juga nyala)
+    // Cek apakah URL sama persis dengan path (untuk dashboard), atau berawalan path
     const isActive = path === '/admin' ? pathname === '/admin' : pathname.startsWith(path); 
     
     return `flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-200 ${
       isActive 
-        ? 'bg-[#3366E3] text-white shadow-sm' // Warna industries
-        : 'text-[#000000] hover:bg-shadow-50'  // Ungu tua & hover lembut
+        ? 'bg-[#3366E3] text-white shadow-sm' 
+        : 'text-[#000000] hover:bg-yellow-100'
     }`;
   };
 
@@ -39,14 +41,14 @@ export default function AdminLayout({
         />
       )}
 
-      {/* SIDEBAR */}
+      {/* SIDEBAR ADMIN BIASA */}
       <aside 
         className={`fixed inset-y-0 left-0 z-50 w-72 bg-white flex flex-col transform transition-transform duration-300 ease-in-out shadow-[4px_0_24px_rgba(0,0,0,0.02)]
         md:relative md:translate-x-0 
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <div className="h-20 flex items-center justify-between px-8">
-          <h1 className="text-2xl font-bold text-[#000000]">Admin Panel</h1>
+        <div className="h-20 flex items-center justify-between px-8 border-b border-gray-50 md:border-none">
+          <h1 className="text-xl font-bold text-[#000000]">Admin Panel</h1>
           <button 
             className="md:hidden text-gray-400 hover:text-gray-800 text-2xl"
             onClick={() => setIsSidebarOpen(false)}
@@ -63,7 +65,6 @@ export default function AdminLayout({
               Overview
             </h3>
             
-            {/* KEMBALI KE FITUR ASLI: DASHBOARD */}
             <Link href="/admin" onClick={() => setIsSidebarOpen(false)} className={getMenuClass('/admin')}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm0 12a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zm12-12a2 2 0 012-2h4a2 2 0 012 2v12a2 2 0 01-2 2h-4a2 2 0 01-2-2V6z" />
@@ -71,7 +72,6 @@ export default function AdminLayout({
               Dashboard Analytics
             </Link>
 
-            {/* KEMBALI KE FITUR ASLI: SURVEI LOKASI MAPS */}
             <Link href="/admin/surveys" onClick={() => setIsSidebarOpen(false)} className={getMenuClass('/admin/surveys')}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z" />
@@ -97,8 +97,32 @@ export default function AdminLayout({
             <h2 className="text-xl font-bold text-[#000000] hidden md:block">Workspace</h2>
           </div>
           
-          <div className="w-10 h-10 rounded-full bg-[#3366E3] text-white flex items-center justify-center font-bold text-lg shadow-sm">
-            A
+          {/* WADAH AVATAR & POP-UP (RELATIVE) */}
+          <div className="relative">
+            {/* Tombol Avatar A (Untuk Admin Biasa) */}
+            <button 
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="w-10 h-10 rounded-full bg-[#3366E3] text-white flex items-center justify-center font-bold text-lg shadow-sm hover:ring-4 hover:ring-blue-100 transition-all focus:outline-none relative z-50"
+            >
+              A
+            </button>
+
+            {/* POP-UP PROFILE CARD */}
+            {isProfileOpen && (
+              <>
+                {/* Layar Transparan */}
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setIsProfileOpen(false)}
+                />
+                
+                {/* Wadah Melayang untuk Profile Card */}
+                <div className="absolute right-0 mt-3 z-50 w-[350px] shadow-2xl rounded-3xl origin-top-right transition-all">
+                  {/* Kita ubah namanya jadi "Admin" agar beda dari Superadmin */}
+                  <ProfileCard name="Admin" />
+                </div>
+              </>
+            )}
           </div>
         </header>
         
