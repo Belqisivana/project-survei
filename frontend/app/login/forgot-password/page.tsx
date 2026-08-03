@@ -49,7 +49,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center mb-8">
           <div className="h-16 mx-auto mb-4 flex items-center justify-center overflow-hidden">
             <img 
-              src="/logo-ayana.png" // Sesuaikan dengan nama file gambar logomu di folder public
+              src="/logo-ayn-blt.png" // Sesuaikan dengan nama file gambar logomu di folder public
               alt="Logo Industri" 
               className="max-h-full max-w-[180px] object-contain"
             />
