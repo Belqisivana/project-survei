@@ -36,11 +36,11 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans p-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
         
-        {/* LOGO & HEADER (Hanya 1 yang bersih di sini) */}
+        {/* LOGO & HEADER */}
         <div className="text-center mb-8">
           <div className="h-16 mx-auto mb-4 flex items-center justify-center overflow-hidden">
             <img 
-              src="/logo-ayana.png" // Sesuaikan dengan nama file gambar logomu di folder public
+              src="/logo-ayn-blt.png" // gambar logo
               alt="Logo Industri" 
               className="max-h-full max-w-[180px] object-contain"
             />
