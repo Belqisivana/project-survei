@@ -2,10 +2,10 @@
 import React from 'react';
 
 const dummyAllSurveys = [
-  { id: 1, placeName: 'Klinik Sehat Bersama', address: 'Jl. Merdeka No. 45, Jakarta', pic: 'Andi (Admin)', status: 'Dipantau', rating: 4.8 },
-  { id: 2, placeName: 'Apotek K24 Sudirman', address: 'Jl. Jend. Sudirman Kav. 21', pic: 'Budi (Admin)', status: 'Menunggu Verifikasi', rating: 4.2 },
-  { id: 3, placeName: 'RS Umum Daerah Pusat', address: 'Jl. Kesehatan No. 1, Bandung', pic: 'Siti (Admin)', status: 'Dipantau', rating: 4.5 },
-  { id: 4, placeName: 'Puskesmas Melati', address: 'Jl. Bunga No. 12, Surabaya', pic: 'Belum Ada', status: 'Draf', rating: 0 },
+  { id: 1, placeName: 'Ayanan Digital Printing', address: 'Jl. Ps. Kesamben, Kesamben, Kec. Kesamben, Kabupaten Blitar, Jawa Timur 66191', pic: 'Andi (Admin)', status: 'Dipantau', rating: 4.8 },
+  { id: 2, placeName: 'Lki Productions', address: 'Jl. Sebeng No.1945, Plampangan, Jugo, Kec. Kesamben, Kabupaten Blitar, Jawa Timur 66191', pic: 'Budi (Admin)', status: 'Menunggu Verifikasi', rating: 4.2 },
+  // { id: 3, placeName: 'Lki', address: 'Jl. Kesehatan No. 1, Bandung', pic: 'Siti (Admin)', status: 'Dipantau', rating: 4.5 },
+  // { id: 4, placeName: 'Puskesmas Melati', address: 'Jl. Bunga No. 12, Surabaya', pic: 'Belum Ada', status: 'Draf', rating: 0 },
 ];
 
 export default function SuperadminSurveysPage() {

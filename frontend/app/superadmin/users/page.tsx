@@ -4,8 +4,8 @@ import React from 'react';
 const dummyUsers = [
   { id: 1, name: 'Bosse', email: 'bosse@superadmin.com', role: 'Superadmin', status: 'Aktif', lastLogin: 'Baru saja' },
   { id: 2, name: 'Andi Pratama', email: 'andi@admin.com', role: 'Admin', status: 'Aktif', lastLogin: '2 jam lalu' },
-  { id: 3, name: 'Budi Santoso', email: 'budi@admin.com', role: 'Admin', status: 'Aktif', lastLogin: '1 hari lalu' },
-  { id: 4, name: 'Siti Rahma', email: 'siti@admin.com', role: 'Admin', status: 'Nonaktif', lastLogin: '2 minggu lalu' },
+  // { id: 3, name: 'Budi Santoso', email: 'budi@admin.com', role: 'Admin', status: 'Aktif', lastLogin: '1 hari lalu' },
+  // { id: 4, name: 'Siti Rahma', email: 'siti@admin.com', role: 'Admin', status: 'Nonaktif', lastLogin: '2 minggu lalu' },
 ];
 
 export default function UsersPage() {
