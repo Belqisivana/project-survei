@@ -11,6 +11,7 @@ class SessionCreateRequest(BaseModel):
 class SessionResponse(BaseModel):
     token: str
     outlet_name: str
+    logo_url: Optional[str] = None
     status: str
 
     class Config:
@@ -44,6 +45,7 @@ class SessionDetailResponse(BaseModel):
     token: str
     status: str
     outlet_name: str
+    logo_url: Optional[str] = None
     ratings: list[RatingHistoryItem]
 
     class Config:

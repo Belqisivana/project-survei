@@ -40,6 +40,7 @@ class Outlet(Base):
     id = Column(String, primary_key=True, default=gen_uuid)
     city_id = Column(String, ForeignKey("cities.id"), nullable=False)
     name = Column(String, nullable=False)
+    logo_url = Column(String, nullable=True)  # path/URL logo outlet, misal "/logo-lkb.png" atau URL eksternal
     google_maps_review_link = Column(String, nullable=False)
     wa_number = Column(String, nullable=False)  # format: 62812xxxxxxx
     created_at = Column(DateTime, default=datetime.utcnow)
