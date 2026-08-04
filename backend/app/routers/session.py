@@ -20,6 +20,7 @@ def create_session(payload: schemas.SessionCreateRequest, db: DBSession = Depend
     return schemas.SessionResponse(
         token=session.token,
         outlet_name=session.outlet.name,
+        logo_url=session.outlet.logo_url,
         status=session.status.value,
     )
 
@@ -35,6 +36,7 @@ def get_session_detail(token: str, db: DBSession = Depends(get_db)):
         token=session.token,
         status=session.status.value,
         outlet_name=session.outlet.name,
+        logo_url=session.outlet.logo_url,
         ratings=ratings,
     )
 
@@ -58,12 +60,15 @@ def submit_rating(token: str, payload: schemas.RatingSubmitRequest, db: DBSessio
         has_followup = any(r.stage.value == "followup" for r in existing_ratings)
 
         if has_followup:
+            # Rating susulan udah masuk, sesi ini udah "final" — initial gak boleh diubah lagi.
             raise HTTPException(
                 status_code=400,
                 detail="Sesi ini sudah sampai tahap rating susulan, rating awal tidak bisa diubah lagi",
             )
 
         if existing_initial:
+            # Rating awal boleh diganti selama pelanggan belum lanjut ke tahap berikutnya
+            # (misal berubah pikiran dari bintang 4 ke bintang 5 sebelum ke Google Maps).
             crud.update_rating(db, existing_initial, payload.stars, payload.comment)
         else:
             crud.add_rating(db, session.id, "initial", payload.stars, payload.comment)
@@ -113,4 +118,3 @@ def submit_rating(token: str, payload: schemas.RatingSubmitRequest, db: DBSessio
             redirect_url=session.outlet.google_maps_review_link,
             message="Terima kasih! Yuk bantu kami dengan review di Google Maps.",
         )
-crud

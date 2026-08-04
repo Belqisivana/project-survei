@@ -16,6 +16,7 @@ router = APIRouter(prefix="/api/outlets", tags=["outlets"])
 class OutletCreateRequest(BaseModel):
     city_id: str
     name: str
+    logo_url: str | None = None
     google_maps_review_link: str
     wa_number: str
 
@@ -23,6 +24,7 @@ class OutletCreateRequest(BaseModel):
 class OutletUpdateRequest(BaseModel):
     city_id: str | None = None
     name: str | None = None
+    logo_url: str | None = None
     google_maps_review_link: str | None = None
     wa_number: str | None = None
 
@@ -32,6 +34,7 @@ class OutletResponse(BaseModel):
     city_id: str
     city_name: str
     name: str
+    logo_url: str | None
     google_maps_review_link: str
     wa_number: str
 
@@ -45,6 +48,7 @@ class OutletResponse(BaseModel):
             city_id=outlet.city_id,
             city_name=outlet.city.name,
             name=outlet.name,
+            logo_url=outlet.logo_url,
             google_maps_review_link=outlet.google_maps_review_link,
             wa_number=outlet.wa_number,
         )
