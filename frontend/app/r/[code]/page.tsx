@@ -119,7 +119,7 @@ export default function LandingRatingPage() {
                 ✕
               </button>
               <div className="text-4xl">🙏</div>
-              <h2 className="text-lg font-semibold">Terima kasih banyak, ya!</h2>
+              <h2 className="text-lg font-semibold">Terima kasih banyak!</h2>
               <p className="text-gray-600 text-sm leading-relaxed">
                 Senang bisa bikin Anda puas hari ini. Jika berkenan, boleh
                 bantu kami sekali lagi dengan memberi rating yang sama di Google
