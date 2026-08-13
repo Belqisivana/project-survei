@@ -27,14 +27,12 @@ export default function UnifiedLoginPage() {
       // --- LOGIKA SMART ROUTING (MEMILAH CABANG BERDASARKAN EMAIL) ---
       const userEmail = email.toLowerCase();
 
-      if (userEmail.includes('@ayana')) {
-        // 1. Cabang Ayana
-        if (userEmail.includes('superadmin')) {
-          router.push('/superadmin');
-        } else {
-          router.push('/admin');
-        }
-      } 
+      if (userEmail.includes('superadmin')) {
+        router.push('/superadmin');
+      } else if (userEmail.includes('@ayana')) {
+        // Ubah bagian ini dari /admin menjadi /ayana
+        router.push('/ayana');
+      }
       else if (userEmail.includes('@lkiproduction') || userEmail.includes('pro')) {
         // 2. Cabang LKI Production
         router.push('/lki-production/dashboard');

@@ -1,13 +1,13 @@
-// frontend/app/lki-production/dashboard/layout.tsx
+// frontend/app/ayana/layout.tsx
 'use client'; 
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function LKIDashboardLayout({ children }: { children: React.ReactNode }) {
+export default function AyanaDashboardLayout({ children }: { children: React.ReactNode }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State baru untuk sidebar HP
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State untuk sidebar HP
   const router = useRouter();
   const pathname = usePathname();
 
@@ -17,9 +17,8 @@ export default function LKIDashboardLayout({ children }: { children: React.React
 
   return (
     <div className="flex min-h-screen bg-[#F9F9F8] font-sans overflow-hidden">
-      
+
       {/* ================= OVERLAY GELAP UNTUK MOBILE ================= */}
-      {/* Muncul di belakang sidebar kalau menu HP lagi dibuka */}
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
@@ -41,11 +40,11 @@ export default function LKIDashboardLayout({ children }: { children: React.React
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
 
-        {/* Logo LKI */}
-        <div className="h-20 mb-12 w-full flex justify-center items-center mt-4 md:mt-0">
+        {/* Logo */}
+        <div className="h-16 mb-12 w-full flex justify-center items-center mt-4 md:mt-0">
           <img 
-            src="/logo-lki-pro-formal.png" // Sesuaikan nama file logomu 
-            alt="LKI Production" 
+            src="/logo-ayana.png" 
+            alt="Ayana Digital Printing" 
             className="max-h-full object-contain"
           />
         </div>
@@ -55,11 +54,11 @@ export default function LKIDashboardLayout({ children }: { children: React.React
           <ul className="space-y-2">
             <li>
               <Link 
-                href="/lki-production/dashboard"
-                onClick={() => setIsMobileMenuOpen(false)} // Tutup sidebar otomatis pas menu diklik di HP
+                href="/ayana" 
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                  pathname === '/lki-production/dashboard' 
-                    ? 'bg-red-50 text-[#E33333] font-bold' 
+                  pathname === '/ayana' 
+                    ? 'bg-blue-50 text-[#3366E3] font-bold' 
                     : 'text-gray-600 hover:bg-gray-50 font-medium'
                 }`}
               >
@@ -69,11 +68,11 @@ export default function LKIDashboardLayout({ children }: { children: React.React
             </li>
             <li>
               <Link 
-                href="/lki-production/dashboard/pengunjung"
+                href="/ayana/pengunjung" 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                  pathname === '/lki-production/dashboard/pengunjung' 
-                    ? 'bg-red-50 text-[#E33333] font-bold' 
+                  pathname === '/ayana/pengunjung' 
+                    ? 'bg-blue-50 text-[#3366E3] font-bold' 
                     : 'text-gray-600 hover:bg-gray-50 font-medium'
                 }`}
               >
@@ -98,22 +97,22 @@ export default function LKIDashboardLayout({ children }: { children: React.React
           >
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          
-          {/* Spacer biar avatar tetep di kanan kalau di desktop */}
+
+          {/* Spacer untuk Desktop */}
           <div className="hidden md:block"></div> 
 
-          {/* Profil & Log Out (Kanan) */}
+          {/* Profil (Kanan) */}
           <div className="relative">
             <div 
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="w-10 h-10 bg-[#E33333] text-white rounded-full flex items-center justify-center font-bold cursor-pointer hover:bg-red-800 transition-colors shadow-md select-none"
+              className="w-10 h-10 bg-[#3366E3] text-white rounded-full flex items-center justify-center font-bold cursor-pointer hover:bg-blue-800 transition-colors shadow-md select-none"
             >
-              P
+              A
             </div>
 
             {isProfileOpen && (
               <div className="absolute right-0 mt-3 w-64 bg-white border border-gray-100 rounded-3xl p-5 shadow-2xl z-50 flex flex-col">
-                <h3 className="text-xl font-bold text-center text-gray-900 mb-4">Admin LKI</h3>
+                <h3 className="text-xl font-bold text-center text-gray-900 mb-4">Admin Ayana</h3>
                 <hr className="my-4 border-gray-100" />
                 <button 
                   onClick={handleLogout}
