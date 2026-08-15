@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function LoginPage() {
+export default function UnifiedLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,10 +24,27 @@ export default function LoginPage() {
         return;
       }
 
-      if (email.includes('superadmin')) {
+      // --- LOGIKA SMART ROUTING (MEMILAH CABANG BERDASARKAN EMAIL) ---
+      const userEmail = email.toLowerCase();
+
+      if (userEmail.includes('superadmin')) {
         router.push('/superadmin');
-      } else {
-        router.push('/admin');
+      } else if (userEmail.includes('@ayana')) {
+        // Ubah bagian ini dari /admin menjadi /ayana
+        router.push('/ayana');
+      }
+      else if (userEmail.includes('@lkiproduction') || userEmail.includes('pro')) {
+        // 2. Cabang LKI Production
+        router.push('/lki-production/dashboard');
+      } 
+      else if (userEmail.includes('@lkb') || userEmail.includes('lapis')) {
+        // 3. Cabang Lapis Kukus Balitar
+        router.push('/lkb/dashboard');
+      } 
+      else {
+        // Jika email tidak dikenali
+        setErrorMsg('Domain email tidak dikenali di sistem kami!');
+        setIsLoading(false);
       }
     }, 1000);
   };
@@ -36,17 +53,18 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans p-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
         
-        {/* LOGO & HEADER */}
+        {/* LOGO PORTAL TERPUSAT */}
         <div className="text-center mb-8">
           <div className="h-16 mx-auto mb-4 flex items-center justify-center overflow-hidden">
+            {/* Sementara pakai logo utama, nanti bisa disesuaikan */}
             <img 
-              src="/logo-ayn-blt.png" // gambar logo
-              alt="Logo Industri" 
+              src="/logo-lki-group2.png" 
+              alt="Portal Login Terpusat" 
               className="max-h-full max-w-[180px] object-contain"
             />
           </div>
-          <h1 className="text-2xl font-bold text-[#000000]">Welcome</h1>
-          <p className="text-gray-500 text-sm mt-1">Silakan login untuk mengakses workspace</p>
+          <h1 className="text-2xl font-bold text-[#000000]">Workspace Portal</h1>
+          <p className="text-gray-500 text-sm mt-1">Satu akses untuk semua cabang industri</p>
         </div>
 
         {/* Form Login */}
@@ -66,7 +84,7 @@ export default function LoginPage() {
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@example.com"
+              placeholder="nama@cabang.com"
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3366E3] focus:border-transparent transition-all"
             />
           </div>
@@ -97,7 +115,7 @@ export default function LoginPage() {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full bg-[#3366E3] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center shadow-md disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            className="w-full bg-[#3366E3] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center shadow-md disabled:opacity-70 mt-2"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
