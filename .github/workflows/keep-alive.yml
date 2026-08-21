@@ -1,0 +1,15 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Jalan tiap 2 hari sekali jam 00:00 UTC, biar aman dari batas pause 7 hari
+    - cron: "0 0 */2 * *"
+  workflow_dispatch: # biar bisa dijalanin manual juga dari tab Actions kalau perlu
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping database via read endpoint
+        run: |
+          curl -f https://project-survei.vercel.app/api/cities || echo "Ping gagal, cek backend"
