@@ -40,14 +40,10 @@ export default function LandingRatingPage() {
     try {
       const result = await submitRating(token, "initial", stars, comment || undefined);
       if (result.next_action === "google_maps" && result.redirect_url) {
-        // Rating 4-5: simpan URL-nya secara permanen di state, jangan langsung redirect.
-        // Form rating TIDAK ditampilkan lagi setelah ini, karena backend menolak submit kedua
-        // kalinya untuk sesi yang sama — mencegah pelanggan "kejebak" kalau pop-up ditutup.
         setMapsUrl(result.redirect_url);
         setShowModal(true);
         setState("submitted");
       } else if (result.redirect_url) {
-        // Rating 1-3: langsung ke WhatsApp
         window.location.href = result.redirect_url;
       }
     } catch (err: any) {
@@ -64,15 +60,12 @@ export default function LandingRatingPage() {
     return <p className="text-red-600">{errorMsg}</p>;
   }
 
-  // Setelah rating 4-5 berhasil dikirim: tampilkan kartu terima kasih PERMANEN
-  // (bukan cuma pop-up), supaya tombol ke Google Maps selalu bisa diakses lagi
-  // kapan pun, walau pop-up sempat ditutup.
   if (state === "submitted" && mapsUrl) {
     return (
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
         <div className="flex justify-center">
           <Image
-            src={`/${params.code}.png`} // ➔ LOGO DINAMIS BERDASARKAN URL
+            src={`/${params.code}.png`}
             alt={outletName}
             width={160}
             height={44}
@@ -83,19 +76,19 @@ export default function LandingRatingPage() {
         <div className="text-4xl">🙏</div>
         <h2 className="text-lg font-semibold">Terima kasih banyak!</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
-          Senang bisa bikin Anda puas hari ini. Jika berkenan, boleh
-          bantu kami sekali lagi dengan memberi rating yang sama di Google
-          Maps? Setiap review dari Anda sangat berarti bagi kami untuk terus
-          berkembang dan melayani Anda lebih baik lagi. 💛
+          Senang bisa bikin Anda puas hari ini. Yuk bantu kami sekali lagi —
+          tinggal <strong>1 langkah</strong>: nanti di halaman Google Maps,
+          klik bintang sesuai rating Anda tadi lalu tekan{" "}
+          <strong>&quot;Post&quot;</strong>. Cuma 10 detik kok! 🙏
         </p>
         <button
           onClick={() => {
-            window.location.href = mapsUrl;
+            window.open(mapsUrl, "_blank");
           }}
           className="w-full text-white rounded-lg py-3 font-medium"
           style={{ backgroundColor: BRAND_GREEN }}
         >
-          Lanjut ke Google Maps
+          Ulas / Rating Kami di Google Maps!
         </button>
 
         <button
@@ -121,19 +114,19 @@ export default function LandingRatingPage() {
               <div className="text-4xl">🙏</div>
               <h2 className="text-lg font-semibold">Terima kasih banyak!</h2>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Senang bisa bikin Anda puas hari ini. Jika berkenan, boleh
-                bantu kami sekali lagi dengan memberi rating yang sama di Google
-                Maps? Setiap review dari Anda sangat berarti bagi kami untuk terus
-                berkembang dan melayani Anda lebih baik lagi. 💛
+                Senang bisa bikin Anda puas hari ini. Yuk bantu kami sekali lagi —
+                tinggal <strong>1 langkah</strong>: nanti di halaman Google Maps,
+                klik bintang sesuai rating Anda tadi lalu tekan{" "}
+                <strong>&quot;Post&quot;</strong>. Cuma 10 detik kok! 🙏
               </p>
               <button
                 onClick={() => {
-                  window.location.href = mapsUrl;
+                  window.open(mapsUrl, "_blank");
                 }}
                 className="w-full text-white rounded-lg py-3 font-medium"
                 style={{ backgroundColor: BRAND_GREEN }}
               >
-                Lanjut ke Google Maps
+                Ulas / Rating Kami di Google Maps!
               </button>
             </div>
           </div>
@@ -146,7 +139,7 @@ export default function LandingRatingPage() {
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
       <div className="flex justify-center">
         <Image
-          src={`/logo-${params.code.toLowerCase()}.png`} // ➔ Semua kode dari URL otomatis diubah jadi huruf kecil saat nyari gambar
+          src={`/logo-${params.code.toLowerCase()}.png`}
           alt={outletName}
           width={160}
           height={44}
