@@ -99,7 +99,7 @@ export default function SuperAdminDashboard() {
             <p className="text-gray-500 text-sm mt-1">Pantau seluruh data lokasi dari semua Admin beserta keluhan surveinya.</p>
           </div>
           <button className="bg-[#3366E3] hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-colors text-sm flex items-center gap-2 shadow-sm">
-            <span className="text-lg leading-none">+</span> Tambah Lokasi Global
+            <span className="text-lg leading-none">+</span> Download Laporan PDF
           </button>
         </div>
         
