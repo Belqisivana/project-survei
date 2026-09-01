@@ -7,7 +7,7 @@ import { useRouter, usePathname } from 'next/navigation';
 
 export default function LKIDashboardLayout({ children }: { children: React.ReactNode }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State baru untuk sidebar HP
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -19,7 +19,6 @@ export default function LKIDashboardLayout({ children }: { children: React.React
     <div className="flex min-h-screen bg-[#F9F9F8] font-sans overflow-hidden">
       
       {/* ================= OVERLAY GELAP UNTUK MOBILE ================= */}
-      {/* Muncul di belakang sidebar kalau menu HP lagi dibuka */}
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
@@ -33,7 +32,7 @@ export default function LKIDashboardLayout({ children }: { children: React.React
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Tombol Close (X) - Hanya muncul di HP */}
+        {/* Tombol Close (X) di HP */}
         <button 
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
@@ -42,9 +41,9 @@ export default function LKIDashboardLayout({ children }: { children: React.React
         </button>
 
         {/* Logo LKI */}
-        <div className="h-20 mb-12 w-full flex justify-center items-center mt-4 md:mt-0">
+        <div className="h-16 mb-10 w-full flex justify-center items-center mt-4 md:mt-0">
           <img 
-            src="/logo-lki-pro-formal.png" // Sesuaikan nama file logomu 
+            src="/logo-lki-pro-formal.png" 
             alt="LKI Production" 
             className="max-h-full object-contain"
           />
@@ -56,10 +55,10 @@ export default function LKIDashboardLayout({ children }: { children: React.React
             <li>
               <Link 
                 href="/lki-production/dashboard"
-                onClick={() => setIsMobileMenuOpen(false)} // Tutup sidebar otomatis pas menu diklik di HP
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                   pathname === '/lki-production/dashboard' 
-                    ? 'bg-red-50 text-[#E33333] font-bold' 
+                    ? 'bg-green-50 text-green-600 font-bold' // <--- Ubah ke hijau
                     : 'text-gray-600 hover:bg-gray-50 font-medium'
                 }`}
               >
@@ -67,13 +66,29 @@ export default function LKIDashboardLayout({ children }: { children: React.React
                 Dashboard Survei
               </Link>
             </li>
+            
+            <li>
+              <Link 
+                href="/lki-production/dashboard/acara-mendatang"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                  pathname === '/lki-production/dashboard/acara-mendatang' 
+                    ? 'bg-green-50 text-green-600 font-bold' // <--- Ubah ke hijau
+                    : 'text-gray-600 hover:bg-gray-50 font-medium'
+                }`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                Acara yang akan datang
+              </Link>
+            </li>
+
             <li>
               <Link 
                 href="/lki-production/dashboard/pengunjung"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                   pathname === '/lki-production/dashboard/pengunjung' 
-                    ? 'bg-red-50 text-[#E33333] font-bold' 
+                    ? 'bg-green-50 text-green-600 font-bold' // <--- Ubah ke hijau
                     : 'text-gray-600 hover:bg-gray-50 font-medium'
                 }`}
               >
@@ -91,7 +106,7 @@ export default function LKIDashboardLayout({ children }: { children: React.React
         {/* Top Navbar */}
         <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8 sticky top-0 z-30">
           
-          {/* Tombol Hamburger (Kiri) - Hanya muncul di Mobile */}
+          {/* Tombol Hamburger (Mobile) */}
           <button 
             className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg md:hidden transition-colors"
             onClick={() => setIsMobileMenuOpen(true)}
@@ -99,14 +114,13 @@ export default function LKIDashboardLayout({ children }: { children: React.React
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
           
-          {/* Spacer biar avatar tetep di kanan kalau di desktop */}
           <div className="hidden md:block"></div> 
 
-          {/* Profil & Log Out (Kanan) */}
+          {/* Profil */}
           <div className="relative">
             <div 
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="w-10 h-10 bg-[#E33333] text-white rounded-full flex items-center justify-center font-bold cursor-pointer hover:bg-red-800 transition-colors shadow-md select-none"
+              className="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold cursor-pointer hover:bg-green-700 transition-colors shadow-md select-none"
             >
               P
             </div>
@@ -119,6 +133,7 @@ export default function LKIDashboardLayout({ children }: { children: React.React
                   onClick={handleLogout}
                   className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-600 font-bold py-2.5 px-4 rounded-xl hover:bg-red-100 transition-colors text-sm"
                 >
+                  {/* Tombol logout tetap merah ya bos biar menandakan aksi keluar/bahaya */}
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 012 2v2h-2V4H5v16h9v-2h2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2h9z" />
                   </svg>
