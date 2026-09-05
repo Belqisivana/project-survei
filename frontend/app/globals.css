@@ -2,6 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --brand-green: #2b5439;
+  --brand-yellow: #f8ec30;
+  --brand-charcoal: #282828;
+  --brand-warm-gray: #6b6558;
+}
+
 body {
-  background-color: #FAF8F0;
+  background-color: #faf8f0;
+  color: var(--brand-charcoal);
+  /* Pola titik halftone halus — referensi teknik cetak halftone,
+     bukan dekorasi generik, biar nyambung ke tema "digital printing". */
+  background-image: radial-gradient(circle, rgba(43, 84, 57, 0.07) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Tepi bergerigi ala struk kertas — dipakai di atas kartu survei,
+   biar kerasa "dari toko print", bukan kartu rounded generik. */
+.receipt-edge {
+  height: 14px;
+  background: radial-gradient(circle at 10px 0, transparent 9px, #ffffff 9.5px);
+  background-size: 20px 20px;
+  background-repeat: repeat-x;
+}
+
+/* Garis putus-putus tipis — referensi sobekan perforasi struk,
+   dipakai sebagai pemisah antar bagian, bukan cuma spasi kosong. */
+.dashed-divider {
+  height: 1px;
+  background-image: repeating-linear-gradient(to right, #d8d2c2 0 6px, transparent 6px 12px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes star-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+  }
+  .star-pop {
+    animation: star-pop 0.35s ease-out;
+  }
+
+  @keyframes confetti-burst {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: var(--confetti-end) scale(0.4); opacity: 0; }
+  }
+  .confetti-piece {
+    animation: confetti-burst 0.8s ease-out forwards;
+  }
+
+  /* Logo "muncul" saat halaman load + kilau tipis lewat sekali-sekali —
+     nunjukin ini elemen brand yang penting, tanpa berlebihan. */
+  @keyframes logo-pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .logo-pop {
+    animation: logo-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .logo-shine-wrap {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .logo-shine-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+    transform: skewX(-20deg);
+    animation: logo-shine 4.5s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  @keyframes logo-shine {
+    0% { left: -150%; }
+    35% { left: 150%; }
+    100% { left: 150%; }
+  }
+
+  /* Foto admin mengambang halus — gerakan lambat & lembut,
+     kerasa "hidup" tanpa norak. */
+  @keyframes mascot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .mascot-float {
+    animation: mascot-float 3.4s ease-in-out infinite;
+  }
 }

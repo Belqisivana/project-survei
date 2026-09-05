@@ -10,6 +10,13 @@ interface StarRatingProps {
 
 export default function StarRating({ value, onChange, minRequired }: StarRatingProps) {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [poppedStar, setPoppedStar] = useState<number | null>(null);
+
+  function handleClick(star: number) {
+    onChange(star);
+    setPoppedStar(star);
+    window.setTimeout(() => setPoppedStar(null), 350);
+  }
 
   return (
     <div>
@@ -21,10 +28,12 @@ export default function StarRating({ value, onChange, minRequired }: StarRatingP
               key={star}
               type="button"
               aria-label={`${star} bintang`}
-              onClick={() => onChange(star)}
+              onClick={() => handleClick(star)}
               onMouseEnter={() => setHovered(star)}
               onMouseLeave={() => setHovered(null)}
-              className="text-4xl leading-none transition-transform active:scale-95 hover:scale-110 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+              className={`text-4xl leading-none transition-transform active:scale-95 hover:scale-110 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation ${
+                poppedStar === star ? "star-pop" : ""
+              }`}
               style={{ color: active ? "#F8EC30" : "#E3E1D6" }}
             >
               ★
@@ -33,7 +42,7 @@ export default function StarRating({ value, onChange, minRequired }: StarRatingP
         })}
       </div>
       {minRequired ? (
-        <p className="text-sm text-center mt-2 text-gray-500">
+        <p className="text-sm text-center mt-2" style={{ color: "#6B6558" }}>
           Minimal {minRequired} bintang untuk lanjut
         </p>
       ) : null}

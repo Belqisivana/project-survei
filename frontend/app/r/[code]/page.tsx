@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import StarRating from "@/components/StarRating";
+import ConfettiBurst from "@/components/ConfettiBurst";
+import ReceiptCard from "@/components/ReceiptCard";
+import GreetingBubble from "@/components/GreetingBubble";
 import { createSession, submitRating } from "@/lib/api";
 
 const BRAND_GREEN = "#2B5439";
+const WARM_GRAY = "#6B6558";
 
 type PageState = "loading" | "ready" | "submitting" | "submitted" | "error";
 
@@ -20,6 +24,7 @@ export default function LandingRatingPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [mapsUrl, setMapsUrl] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     createSession(params.code)
@@ -43,6 +48,8 @@ export default function LandingRatingPage() {
         setMapsUrl(result.redirect_url);
         setShowModal(true);
         setState("submitted");
+        setShowConfetti(true);
+        window.setTimeout(() => setShowConfetti(false), 900);
       } else if (result.redirect_url) {
         window.location.href = result.redirect_url;
       }
@@ -53,29 +60,49 @@ export default function LandingRatingPage() {
   }
 
   if (state === "loading") {
-    return <p className="text-gray-500">Memuat...</p>;
+    return (
+      <ReceiptCard>
+        <div className="py-6 flex flex-col items-center gap-3">
+          <div
+            className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
+            style={{ borderColor: `${BRAND_GREEN}33`, borderTopColor: "transparent" }}
+          />
+          <p style={{ color: WARM_GRAY }}>Memuat...</p>
+        </div>
+      </ReceiptCard>
+    );
   }
 
   if (state === "error") {
-    return <p className="text-red-600">{errorMsg}</p>;
+    return (
+      <ReceiptCard>
+        <div className="text-3xl">😕</div>
+        <p className="text-red-600 text-sm">{errorMsg}</p>
+      </ReceiptCard>
+    );
   }
 
   if (state === "submitted" && mapsUrl) {
     return (
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
-        <div className="flex justify-center">
-          <Image
-            src={`/${params.code}.png`}
-            alt={outletName}
-            width={160}
-            height={44}
-            className="h-11 w-auto object-contain"
-            priority
-          />
+      <ReceiptCard>
+        {showConfetti && <ConfettiBurst />}
+        <div className="flex justify-center logo-pop">
+          <div className="logo-shine-wrap">
+            <Image
+              src={`/${params.code}.png`}
+              alt={outletName}
+              width={160}
+              height={44}
+              className="h-11 w-auto object-contain"
+              priority
+            />
+          </div>
         </div>
-        <div className="text-4xl">🙏</div>
-        <h2 className="text-lg font-semibold">Terima kasih banyak!</h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <div className="text-4xl">🎉</div>
+        <h2 className="text-xl" style={{ fontFamily: "var(--font-heading)", fontWeight: 700 }}>
+          Terima kasih banyak!
+        </h2>
+        <p className="text-sm leading-relaxed" style={{ color: WARM_GRAY }}>
           Senang bisa bikin Anda puas hari ini. Yuk bantu kami sekali lagi —
           tinggal <strong>1 langkah</strong>: nanti di halaman Google Maps,
           klik bintang sesuai rating Anda tadi lalu tekan{" "}
@@ -85,7 +112,7 @@ export default function LandingRatingPage() {
           onClick={() => {
             window.open(mapsUrl, "_blank");
           }}
-          className="w-full text-white rounded-lg py-3 font-medium"
+          className="w-full text-white rounded-xl py-3 font-medium transition-transform active:scale-95"
           style={{ backgroundColor: BRAND_GREEN }}
         >
           Ulas / Rating Kami di Google Maps!
@@ -96,9 +123,10 @@ export default function LandingRatingPage() {
             setShowModal(false);
             setState("ready");
           }}
-          className="w-full text-sm text-gray-400 underline"
+          className="w-full text-sm underline"
+          style={{ color: WARM_GRAY }}
         >
-          Ubah Rating sebelumnya?
+          Eh, mau ubah rating dulu
         </button>
 
         {showModal && (
@@ -111,9 +139,11 @@ export default function LandingRatingPage() {
               >
                 ✕
               </button>
-              <div className="text-4xl">🙏</div>
-              <h2 className="text-lg font-semibold">Terima kasih banyak!</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <div className="text-4xl">🎉</div>
+              <h2 className="text-xl" style={{ fontFamily: "var(--font-heading)", fontWeight: 700 }}>
+                Terima kasih banyak!
+              </h2>
+              <p className="text-sm leading-relaxed" style={{ color: WARM_GRAY }}>
                 Senang bisa bikin Anda puas hari ini. Yuk bantu kami sekali lagi —
                 tinggal <strong>1 langkah</strong>: nanti di halaman Google Maps,
                 klik bintang sesuai rating Anda tadi lalu tekan{" "}
@@ -123,7 +153,7 @@ export default function LandingRatingPage() {
                 onClick={() => {
                   window.open(mapsUrl, "_blank");
                 }}
-                className="w-full text-white rounded-lg py-3 font-medium"
+                className="w-full text-white rounded-xl py-3 font-medium transition-transform active:scale-95"
                 style={{ backgroundColor: BRAND_GREEN }}
               >
                 Ulas / Rating Kami di Google Maps!
@@ -131,47 +161,83 @@ export default function LandingRatingPage() {
             </div>
           </div>
         )}
-      </div>
+      </ReceiptCard>
     );
   }
 
   return (
-    <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm p-6 text-center space-y-5">
-      <div className="flex justify-center">
-        <Image
-          src={`/logo-${params.code.toLowerCase()}.png`}
-          alt={outletName}
-          width={160}
-          height={44}
-          className="h-11 w-auto object-contain"
-          priority
-        />
+    <ReceiptCard>
+      <div className="flex justify-center logo-pop">
+        <div className="logo-shine-wrap">
+          <Image
+            src={`/logo-${params.code.toLowerCase()}.png`}
+            alt={outletName}
+            width={160}
+            height={44}
+            className="h-11 w-auto object-contain"
+            priority
+          />
+        </div>
       </div>
 
       <div>
-        <h1 className="text-xl font-medium">{outletName}</h1>
-        <p className="text-gray-500 mt-1">Bagaimana pelayanan kami hari ini?</p>
+        <h1 className="text-xl" style={{ fontFamily: "var(--font-heading)", fontWeight: 700 }}>
+          {outletName}
+        </h1>
       </div>
+
+      <div className="dashed-divider" />
+
+      <GreetingBubble
+        avatarSrc={`/mascot-${params.code.toLowerCase()}.png`}
+        message="Hai! Bagaimana pelayanan kami hari ini? 👋"
+      />
 
       <StarRating value={stars} onChange={setStars} />
 
-      <textarea
-        className="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-1"
-        style={{ ["--tw-ring-color" as any]: BRAND_GREEN }}
-        rows={3}
-        placeholder="Ceritakan pengalamanmu (opsional)"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-      />
+      <div className="text-left">
+        <label
+          className="text-xs flex items-center gap-1.5 mb-1.5"
+          style={{ color: WARM_GRAY }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={WARM_GRAY} strokeWidth="2">
+            <path d="M12 20h9" strokeLinecap="round" />
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Ceritakan pengalamanmu (opsional)
+        </label>
+        <textarea
+          className="w-full rounded-lg p-3 focus:outline-none focus:ring-1 transition-shadow"
+          style={{
+            border: "1px solid #E4DFD1",
+            ["--tw-ring-color" as any]: BRAND_GREEN,
+            fontSize: "16px",
+          }}
+          rows={3}
+          placeholder="Misal: pelayanannya cepat dan ramah..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+      </div>
 
       <button
         onClick={handleSubmit}
         disabled={stars === 0 || state === "submitting"}
-        className="w-full text-white rounded-lg py-3 font-medium disabled:opacity-40 transition-opacity"
+        className="w-full text-white rounded-xl py-3 font-medium disabled:opacity-40 transition-transform active:scale-95 flex items-center justify-center gap-2"
         style={{ backgroundColor: BRAND_GREEN }}
       >
-        {state === "submitting" ? "Mengirim..." : "Kirim"}
+        {state === "submitting" ? (
+          "Mengirim..."
+        ) : (
+          <>
+            Kirim
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M22 2 11 13" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M22 2 15 22l-4-9-9-4Z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </>
+        )}
       </button>
-    </div>
+    </ReceiptCard>
   );
 }
