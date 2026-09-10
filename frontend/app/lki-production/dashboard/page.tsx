@@ -57,9 +57,9 @@ export default function LKIDashboardPage() {
           <p className="text-gray-500 text-sm mt-1">Pemetaan akses lokasi event (venue) dan rekapan survei kepuasan klien.</p>
         </div>
         {/* Tulisan Lihat Semua Data pindah ke sini */}
-        <button className="text-sm text-[#E33333] font-semibold hover:underline">
+        {/* <button className="text-sm text-[#E33333] font-semibold hover:underline">
           Lihat Semua Data
-        </button>
+        </button> */}
       </div>
 
       {/* ================= KARTU STATISTIK ================= */}
@@ -91,13 +91,13 @@ export default function LKIDashboardPage() {
           <h2 className="text-lg font-bold text-gray-900">Hasil Pemetaan Akses Venue</h2>
           
           {/* Tombol Download PDF pindah ke sini (di dalam kotak tabel) */}
-          <button 
+          {/* <button 
             onClick={handleDownloadAndReset} 
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-5 rounded-xl transition-colors text-sm flex items-center gap-2 shadow-sm whitespace-nowrap"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             Download Laporan PDF
-          </button>
+          </button> */}
         </div>
         
         <div className="overflow-x-auto">
