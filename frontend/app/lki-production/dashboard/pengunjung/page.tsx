@@ -17,7 +17,6 @@ export default function LKIPengunjungPage() {
       rating: "negatif",
       keluhan: "Kabel mic sering terputus (kresek-kresek) saat acara inti.",
       sumber: "Input Manual (WhatsApp)",
-      statusPenanganan: "ditinjau",
       terkunci: false
     },
     {
@@ -29,7 +28,6 @@ export default function LKIPengunjungPage() {
       rating: "positif",
       keluhan: "Secara umum memuaskan, namun tim loading alat sedikit terlambat datang.",
       sumber: "Input Manual (WhatsApp)",
-      statusPenanganan: "selesai",
       terkunci: true
     },
     {
@@ -41,7 +39,6 @@ export default function LKIPengunjungPage() {
       rating: "", 
       keluhan: "",
       sumber: "",
-      statusPenanganan: "belum",
       terkunci: false
     }
   ]);
@@ -67,7 +64,6 @@ export default function LKIPengunjungPage() {
       rating: "", // Kosongkan karena tidak diinput
       keluhan: formKeluhan,
       sumber: "Input Manual (WhatsApp)",
-      statusPenanganan: "ditinjau",
       terkunci: false
     };
 
@@ -129,8 +125,8 @@ export default function LKIPengunjungPage() {
             <thead>
               <tr className="text-gray-500 text-sm border-b border-gray-200">
                 <th className="pb-4 pr-4 font-medium w-1/4">Info & Status Acara</th>
-                <th className="px-4 pb-4 font-medium w-1/4">Rating & Keluhan Klien</th>
-                <th className="px-4 pb-4 font-medium">Status Penanganan</th>
+                <th className="px-4 pb-4 font-medium w-1/3">Rating & Keluhan Klien</th>
+                {/* Kolom Status Penanganan Dihapus */}
                 <th className="px-4 pb-4 font-medium w-64">Input Bukti Lapangan</th>
                 <th className="pl-4 pb-4 font-medium text-right">Aksi</th>
               </tr>
@@ -139,7 +135,7 @@ export default function LKIPengunjungPage() {
               
               {dataAcara.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-10 text-center text-gray-400 font-medium">
+                  <td colSpan={4} className="py-10 text-center text-gray-400 font-medium">
                     Belum ada data evaluasi atau komplain baru untuk periode ini.
                   </td>
                 </tr>
@@ -176,19 +172,9 @@ export default function LKIPengunjungPage() {
                       <p className="font-semibold text-gray-900">{acara.keluhan || "-"}</p>
                       {acara.sumber && <p className="text-[10px] text-gray-400 mt-2 font-medium italic">Sumber: {acara.sumber}</p>}
                     </td>
-                    <td className="px-4 py-5 align-top">
-                      {acara.terkunci ? (
-                        <span className="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold block text-center w-full border border-green-200">
-                          Selesai (Tervalidasi)
-                        </span>
-                      ) : (acara.rating || acara.keluhan) ? (
-                         <select className="bg-yellow-50 border border-yellow-200 text-yellow-700 text-xs rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 font-semibold shadow-sm">
-                          <option value="ditinjau">Sedang Ditinjau Tim</option>
-                        </select>
-                      ) : (
-                        <span className="text-gray-400 text-xs">-</span>
-                      )}
-                    </td>
+                    
+                    {/* TD Status Penanganan Dihapus */}
+
                     <td className="px-4 py-5 align-top">
                       {acara.terkunci ? (
                         <span className="text-gray-500 text-xs italic">Bukti telah diunggah dan disetujui.</span>
@@ -249,8 +235,6 @@ export default function LKIPengunjungPage() {
                   className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-[#E33333] focus:border-[#E33333]"
                 />
               </div>
-
-              {/* Blok Input Rating telah dihapus sesuai permintaan */}
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Detail Pesan dari Klien</label>
